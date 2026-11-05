@@ -2,7 +2,7 @@
 
 > Generador automático de mapas interactivos de linaje de datos a partir de scripts SQL.
 
-**[Ver demo interactiva](https://lunajesusalfonso-gif.github.io/Portafolio/)** · construida con scripts SQL de ejemplo ficticios ([sql_ejemplo/](sql_ejemplo)).
+**[Ver demo interactiva](https://lunajesusalfonso-gif.github.io/Mapa_de_Linaje/)** · construida con scripts SQL de ejemplo ficticios ([sql_ejemplo/](sql_ejemplo)).
 
 ## Descripción
 
