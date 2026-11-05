@@ -1,0 +1,218 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 100vh;
+                 background-color: #0f172a;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg-void:#04060d;--bg-glass:rgba(8,14,30,0.82);--border:rgba(255,255,255,0.07);--border-hi:rgba(168,135,255,0.3);--gold:#c9a96e;--cyan:#38bdf8;--violet:#a78bfa;--orange:#f97316;--text:#f1f5f9;--muted:#64748b;--dim:#1e293b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg-void);font-family:'DM Sans',sans-serif;color:var(--text)}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 15% 20%,rgba(99,58,210,.09) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 85% 75%,rgba(56,189,248,.06) 0%,transparent 70%)}
+#mynetwork{position:fixed!important;inset:0!important;width:100%!important;height:100%!important;z-index:1;border:none!important;background:transparent!important}
+#ui-header{position:fixed;top:28px;left:32px;z-index:100;animation:fadeDown .9s cubic-bezier(.16,1,.3,1) both}
+#ui-header .eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;opacity:.85}
+#ui-header h1{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.06em;line-height:1;color:var(--text)}
+#ui-header .goldline{width:36px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin:6px 0;border-radius:2px}
+#ui-header .sub{font-size:11.5px;color:var(--muted);font-weight:300;letter-spacing:.03em}
+#ui-stats{position:fixed;top:28px;right:32px;z-index:100;display:flex;flex-direction:column;gap:10px;align-items:flex-end;animation:fadeDown .9s cubic-bezier(.16,1,.3,1) .1s both}
+.chip{background:var(--bg-glass);border:1px solid var(--border);border-radius:8px;padding:10px 18px;backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:flex-end;gap:2px;min-width:115px;box-shadow:0 8px 32px rgba(0,0,0,.5);transition:border-color .2s}
+.chip:hover{border-color:var(--border-hi)}
+.chip .val{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.04em;line-height:1}
+.chip .lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.chip.violet .val{color:var(--violet)}.chip.cyan .val{color:var(--cyan)}.chip.gold .val{color:var(--gold)}.chip.orange .val{color:var(--orange)}
+#ui-legend{position:fixed;bottom:32px;left:32px;z-index:100;background:var(--bg-glass);border:1px solid var(--border);border-radius:10px;padding:18px 22px;backdrop-filter:blur(20px);box-shadow:0 24px 80px rgba(0,0,0,.8);animation:fadeUp 1s cubic-bezier(.16,1,.3,1) .2s both}
+#ui-legend .ltitle{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.lrow{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12.5px;font-weight:300}
+.lrow:last-child{margin-bottom:0}
+.ldot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.ldb{width:10px;height:12px;border-radius:2px;flex-shrink:0}
+.lstar{width:12px;height:12px;flex-shrink:0;clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.lsq{width:11px;height:11px;flex-shrink:0}
+#ui-controls{position:fixed;bottom:32px;right:32px;z-index:100;display:flex;gap:8px;animation:fadeUp 1s cubic-bezier(.16,1,.3,1) .3s both}
+.btn{background:var(--bg-glass);border:1px solid var(--border);border-radius:8px;padding:9px 16px;backdrop-filter:blur(20px);color:var(--muted);font-family:'DM Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .18s;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.btn:hover{border-color:var(--border-hi);color:var(--text);background:rgba(167,139,250,.1)}
+#ui-wm{position:fixed;bottom:36px;left:50%;transform:translateX(-50%);z-index:100;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);pointer-events:none;animation:fadeUp 1.2s cubic-bezier(.16,1,.3,1) .4s both}
+.vis-tooltip{background:var(--bg-glass)!important;border:1px solid var(--border-hi)!important;border-radius:8px!important;color:var(--text)!important;font-family:'DM Sans',sans-serif!important;font-size:12px!important;padding:8px 14px!important;backdrop-filter:blur(20px)!important;box-shadow:0 12px 40px rgba(0,0,0,.6)!important}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+
+
+    <body>
+<div id="ui-header"><span class="eyebrow">Business Intelligence &middot; Data Architecture</span><h1>Mapa de Linaje</h1><div class="goldline"></div><span class="sub">Visualizaci&oacute;n de dependencias y flujo de datos</span></div>
+<div id="ui-stats"><div class="chip violet"><span class="val" id="s-scripts">-</span><span class="lbl">Scripts SQL</span></div><div class="chip cyan"><span class="val" id="s-tables">-</span><span class="lbl">Tablas Fuente</span></div><div class="chip gold"><span class="val" id="s-macros">-</span><span class="lbl">Macro Procesos</span></div><div class="chip orange"><span class="val" id="s-books">-</span><span class="lbl">Libros de Trabajo</span></div></div>
+<div id="ui-legend"><div class="ltitle">Tipos de nodo</div><div class="lrow"><div class="ldb" style="background:#7115fa"></div> Tabla fuente</div><div class="lrow"><div class="ldot" style="background:#00d4ff"></div> Script SQL</div><div class="lrow"><div class="lstar" style="background:#066f0d"></div> Macro proceso</div><div class="lrow"><div class="lsq" style="background:#f97316"></div> Libro de trabajo</div></div>
+<div id="ui-controls"><button class="btn" onclick="network.fit()">Ajustar</button><button class="btn" onclick="network.stabilize()">Estabilizar</button></div>
+<div id="ui-wm">Data Lineage Map &middot; Generado autom&aacute;ticamente</div>
+<script>
+(function poll(){
+  var t=setInterval(function(){
+    if(typeof network==="undefined") return;
+    clearInterval(t);
+    var n=network.body.data.nodes.get();
+    document.getElementById("s-scripts").textContent=n.filter(function(x){return x.shape==="dot";}).length;
+    document.getElementById("s-tables").textContent=n.filter(function(x){return x.shape==="database";}).length;
+    document.getElementById("s-macros").textContent=n.filter(function(x){return x.shape==="star";}).length;
+    document.getElementById("s-books").textContent=n.filter(function(x){return x.shape==="square";}).length;
+  },200);
+})();
+</script>
+
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#00d4ff", "font": {"color": "white"}, "id": "BiPos2021.sql", "label": "BiPos2021.sql", "shape": "dot", "size": 25}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZVTPOS_HS", "label": "ZVTPOS_HS", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZDM_FRQ", "label": "ZDM_FRQ", "shape": "database", "size": 20}, {"color": "#066f0d", "font": {"color": "white"}, "id": "SELL OUT", "label": "SELL OUT", "shape": "star", "size": 45}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Reporte Comercial", "label": "Reporte Comercial", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Seguimiento Diario", "label": "Seguimiento Diario", "shape": "square", "size": 40}, {"color": "#00d4ff", "font": {"color": "white"}, "id": "Bipos2022.sql", "label": "Bipos2022.sql", "shape": "dot", "size": 25}, {"color": "#00d4ff", "font": {"color": "white"}, "id": "BiPos2023.sql", "label": "BiPos2023.sql", "shape": "dot", "size": 25}, {"color": "#00d4ff", "font": {"color": "white"}, "id": "Bipos2024.sql", "label": "Bipos2024.sql", "shape": "dot", "size": 25}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZCVR_BI_POS", "label": "ZCVR_BI_POS", "shape": "database", "size": 20}, {"color": "#00d4ff", "font": {"color": "white"}, "id": "Concurso Retail.sql", "label": "Concurso Retail.sql", "shape": "dot", "size": 25}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZVTPRE_HS", "label": "ZVTPRE_HS", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZPLANTITT", "label": "ZPLANTITT", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZDIMANTAD", "label": "ZDIMANTAD", "shape": "database", "size": 20}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Concurso Retail", "label": "Concurso Retail", "shape": "square", "size": 40}, {"color": "#00d4ff", "font": {"color": "white"}, "id": "Reporte Financiero dummy.sql", "label": "Reporte Financiero dummy.sql", "shape": "dot", "size": 25}, {"color": "#7115fa", "font": {"color": "white"}, "id": "BASE", "label": "BASE", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "PAT", "label": "PAT", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZPA_REPAC", "label": "ZPA_REPAC", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZCV_PAT_HISTORY", "label": "ZCV_PAT_HISTORY", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "VENTATOTAL", "label": "VENTATOTAL", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "DUMMY", "label": "DUMMY", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "PEDIDOS", "label": "PEDIDOS", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZCV_PED_PENDIENTES", "label": "ZCV_PED_PENDIENTES", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZBWTCURR", "label": "ZBWTCURR", "shape": "database", "size": 20}, {"color": "#00d4ff", "font": {"color": "white"}, "id": "Venta Total 2026.sql", "label": "Venta Total 2026.sql", "shape": "dot", "size": 25}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZSKU_WEB", "label": "ZSKU_WEB", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZDIM_CVTA", "label": "ZDIM_CVTA", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZCV_CUSTOMER", "label": "ZCV_CUSTOMER", "shape": "database", "size": 20}, {"color": "#7115fa", "font": {"color": "white"}, "id": "ZDIM_MAT2", "label": "ZDIM_MAT2", "shape": "database", "size": 20}, {"color": "#066f0d", "font": {"color": "white"}, "id": "Venta Total", "label": "Venta Total", "shape": "star", "size": 45}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Venta Total (Direcci\u00f3n General)", "label": "Venta Total (Direcci\u00f3n General)", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Venta Total (LATAM)", "label": "Venta Total (LATAM)", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Radiograf\u00eda de SKUs", "label": "Radiograf\u00eda de SKUs", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Marketplace Resell", "label": "Marketplace Resell", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Reporte de Junta de Consejo", "label": "Reporte de Junta de Consejo", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Avance de Meta Mensual", "label": "Avance de Meta Mensual", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Venta Total (B2B)", "label": "Venta Total (B2B)", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Ejecutivos Frankenstein", "label": "Ejecutivos Frankenstein", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Benchmark de Venta Total", "label": "Benchmark de Venta Total", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Venta Total (B2B Especializado)", "label": "Venta Total (B2B Especializado)", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Venta Tuya Cloud", "label": "Venta Tuya Cloud", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Venta Total (Producto Empacado)", "label": "Venta Total (Producto Empacado)", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Venta Total (Desarrollo de Producto)", "label": "Venta Total (Desarrollo de Producto)", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Radiograf\u00eda de SKUs Reingenieria", "label": "Radiograf\u00eda de SKUs Reingenieria", "shape": "square", "size": 40}, {"color": "#b9f3ef", "font": {"color": "white"}, "id": "Radiograf\u00eda de SKUs nueva fuente", "label": "Radiograf\u00eda de SKUs nueva fuente", "shape": "square", "size": 40}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#475569", "from": "ZVTPOS_HS", "to": "BiPos2021.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZDM_FRQ", "to": "BiPos2021.sql", "width": 1.5}, {"arrows": "to", "color": "#a855f7", "from": "BiPos2021.sql", "to": "SELL OUT", "width": 3}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Reporte Comercial", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Seguimiento Diario", "width": 4}, {"arrows": "to", "color": "#475569", "from": "ZVTPOS_HS", "to": "Bipos2022.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZDM_FRQ", "to": "Bipos2022.sql", "width": 1.5}, {"arrows": "to", "color": "#a855f7", "from": "Bipos2022.sql", "to": "SELL OUT", "width": 3}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Reporte Comercial", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Seguimiento Diario", "width": 4}, {"arrows": "to", "color": "#475569", "from": "ZVTPOS_HS", "to": "BiPos2023.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZDM_FRQ", "to": "BiPos2023.sql", "width": 1.5}, {"arrows": "to", "color": "#a855f7", "from": "BiPos2023.sql", "to": "SELL OUT", "width": 3}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Reporte Comercial", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Seguimiento Diario", "width": 4}, {"arrows": "to", "color": "#475569", "from": "ZCVR_BI_POS", "to": "Bipos2024.sql", "width": 1.5}, {"arrows": "to", "color": "#a855f7", "from": "Bipos2024.sql", "to": "SELL OUT", "width": 3}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Reporte Comercial", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "SELL OUT", "to": "Seguimiento Diario", "width": 4}, {"arrows": "to", "color": "#475569", "from": "ZVTPRE_HS", "to": "Concurso Retail.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZPLANTITT", "to": "Concurso Retail.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZDIMANTAD", "to": "Concurso Retail.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZDM_FRQ", "to": "Concurso Retail.sql", "width": 1.5}, {"arrows": "to", "color": "#86b3e6", "from": "Concurso Retail.sql", "to": "Concurso Retail", "width": 4}, {"arrows": "to", "color": "#475569", "from": "BASE", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "PAT", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZVTPRE_HS", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZPA_REPAC", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZCV_PAT_HISTORY", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "VENTATOTAL", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "DUMMY", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "PEDIDOS", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZCV_PED_PENDIENTES", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZCVR_BI_POS", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZBWTCURR", "to": "Reporte Financiero dummy.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZSKU_WEB", "to": "Venta Total 2026.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZDIM_CVTA", "to": "Venta Total 2026.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZPA_REPAC", "to": "Venta Total 2026.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZCV_CUSTOMER", "to": "Venta Total 2026.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZDIM_MAT2", "to": "Venta Total 2026.sql", "width": 1.5}, {"arrows": "to", "color": "#475569", "from": "ZBWTCURR", "to": "Venta Total 2026.sql", "width": 1.5}, {"arrows": "to", "color": "#a855f7", "from": "Venta Total 2026.sql", "to": "Venta Total", "width": 3}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Venta Total (Direcci\u00f3n General)", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Venta Total (LATAM)", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Radiograf\u00eda de SKUs", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Marketplace Resell", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Reporte de Junta de Consejo", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Avance de Meta Mensual", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Venta Total (B2B)", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Ejecutivos Frankenstein", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Benchmark de Venta Total", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Venta Total (B2B Especializado)", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Venta Tuya Cloud", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Venta Total (Producto Empacado)", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Venta Total (Desarrollo de Producto)", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Radiograf\u00eda de SKUs Reingenieria", "width": 4}, {"arrows": "to", "color": "#86b3e6", "from": "Venta Total", "to": "Radiograf\u00eda de SKUs nueva fuente", "width": 4}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "repulsion": {
+            "centralGravity": 0.2,
+            "damping": 0.9,
+            "nodeDistance": 300,
+            "springConstant": 0.05,
+            "springLength": 250
+        },
+        "solver": "repulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
