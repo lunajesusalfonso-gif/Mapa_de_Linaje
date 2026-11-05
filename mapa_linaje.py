@@ -23,49 +23,28 @@ def extraer_tablas_limpio(contenido_sql):
 # =================================================================
 # 2. GENERADOR DE MAPA
 # =================================================================
-def generar_mapa_multinivel(ruta_carpetas):
+def generar_mapa_multinivel(ruta_carpetas, archivo_salida="index.html"):
     print(f"--- CONSTRUYENDO ARQUITECTURA DE 4 NIVELES ---")
 
     # NIVEL 3 → NIVEL 4: Macro proceso a Lista de libros 
     
     libros_de_trabajo = {
-        "SELL OUT":    ["Reporte Comercial", "Seguimiento Diario"],
-        "Venta Total":[
-  "Venta Total (Dirección General)",
-  "Venta Total (LATAM)",
-  "Radiografía de SKUs",
-  "Marketplace Resell",
-  "Reporte de Junta de Consejo",
-  "Avance de Meta Mensual",
-  "Venta Total (B2B)",
-  "Ejecutivos Frankenstein",
-  "Benchmark de Venta Total",
-  "Venta Total (B2B Especializado)",
-  "Venta Tuya Cloud",
-  "Venta Total (Producto Empacado)",
-  "Venta Total (Desarrollo de Producto)",
-  "Radiografía de SKUs Reingenieria",
-  "Radiografía de SKUs nueva fuente"
-],
-       
+        "VENTAS": ["Reporte Comercial", "Seguimiento Diario", "Avance de Meta Mensual"],
+        "INVENTARIO": ["Radiografia de SKUs", "Rotacion de Inventario"],
     }
 
-    # Opcion 2 : Script SQL a Lista de libros
-   # Usar el nombre exacto del archivo .sql
+    # Opcion 2: Script SQL -> lista de libros (usar el nombre exacto del archivo .sql)
     scripts_a_reportes = {
-        "mi_script_especial.sql": ["Seguimiento Diario", "Reporte Financiero"],
-         "Concurso Retail.sql": ["Concurso Retail"],
-       
+        "concurso_retail.sql": ["Reporte de Concurso Retail"],
     }
 
-    # ── NIVEL 2 → NIVEL 3: Script → Macro proceso ───────────────────
+    # NIVEL 2 -> NIVEL 3: Script -> Macro proceso (palabra clave en el nombre del archivo)
     reglas_negocio = {
-        "bipos":       "SELL OUT",
-        "ventatotal":  "Venta Total",
-        "venta total": "Venta Total",
+        "ventas":     "VENTAS",
+        "inventario": "INVENTARIO",
     }
 
-    net = Network(height="100vh", width="100%", bgcolor="#0f172a", font_color="white", directed=True)
+    net = Network(height="100vh", width="100%", bgcolor="#0f172a", font_color="white", directed=True, cdn_resources="in_line")
 
     if not os.path.exists(ruta_carpetas):
         print(f"ERROR: No existe la ruta {ruta_carpetas}")
@@ -126,8 +105,9 @@ def generar_mapa_multinivel(ruta_carpetas):
 
     net.repulsion(node_distance=300, spring_length=250, spring_strength=0.05, damping=0.9)
 
-    output_file = os.path.join(ruta_carpetas, "mapa_multinivel.html")
-    net.save_graph(output_file)
+    output_file = archivo_salida
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(net.generate_html(notebook=False))
 
     # =================================================================
     #Interfaz de Usuario
@@ -231,5 +211,10 @@ def generar_mapa_multinivel(ruta_carpetas):
 # =================================================================
 # 3. Archivo Guardado
 # =================================================================
-mi_ruta = r"C:\Users\jluna\Desktop\env_bi\Mapa de Linaje"
-generar_mapa_multinivel(mi_ruta)
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Genera un mapa de linaje de datos a partir de scripts SQL.")
+    parser.add_argument("carpeta", nargs="?", default="sql_ejemplo", help="Carpeta con archivos .sql")
+    parser.add_argument("-o", "--salida", default="index.html", help="Archivo HTML de salida")
+    args = parser.parse_args()
+    generar_mapa_multinivel(args.carpeta, args.salida)

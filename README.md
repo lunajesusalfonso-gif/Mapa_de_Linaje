@@ -2,7 +2,7 @@
 
 Herramienta en Python que **lee scripts SQL y genera automáticamente un mapa interactivo de linaje de datos**: de qué tablas se alimenta cada script, a qué macro proceso pertenece y en qué libros de trabajo (reportes) termina.
 
-![Tipos de nodo](Mapa%20de%20Linaje/Dataset.png)
+**[Ver demo interactiva](https://lunajesusalfonso-gif.github.io/Portafolio/)** (generada con scripts SQL de ejemplo ficticios en [sql_ejemplo/](sql_ejemplo)).
 
 ## Qué problema resuelve
 
@@ -28,10 +28,11 @@ En equipos de BI es común que nadie sepa con certeza qué reportes se rompen si
 
 ```bash
 pip install -r requirements.txt
-python mapa_linaje.py
+python mapa_linaje.py                      # usa la carpeta sql_ejemplo
+python mapa_linaje.py ruta/a/mis_sql -o mapa.html
 ```
 
-Edita la ruta de la carpeta con tus `.sql` al final de `mapa_linaje.py` (variable `mi_ruta`). El resultado se guarda como `mapa_multinivel.html`; ábrelo en cualquier navegador.
+El resultado es un HTML autocontenido (sin dependencias externas de JS); ábrelo en cualquier navegador. Las reglas de negocio (`reglas_negocio`, `libros_de_trabajo`, `scripts_a_reportes`) se editan al inicio de `generar_mapa_multinivel`.
 
 ## Tecnologías
 
